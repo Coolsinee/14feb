@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💖 Для Наташи 💖</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* Интро экран */
+        .intro-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            transition: opacity 0.8s ease;
+        }
+
+        .intro-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .intro-message {
+            color: white;
+            font-size: 1.8em;
+            text-align: center;
+            max-width: 600px;
+            padding: 20px;
+            line-height: 1.6;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            margin-bottom: 60px;
+            animation: fadeIn 1s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .intro-cats {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .intro-cat {
+            position: absolute;
+            font-size: 50px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            animation: float 3s ease-in-out infinite;
+            pointer-events: auto;
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
+        }
+
+        .intro-cat:hover {
+            transform: scale(1.2);
+        }
+
+        .intro-cat.collecting {
+            pointer-events: none;
+            transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(-5deg); }
+            50% { transform: translateY(-15px) rotate(5deg); }
+        }
+
+        .heart-formation {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 80px;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: 2001;
+            filter: drop-shadow(0 0 20px rgba(255, 105, 180, 0.8));
+        }
+
+        .heart-formation.show {
+            opacity: 1;
+            animation: heartBeat 1s ease-in-out;
+        }
+
+        @keyframes heartBeat {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            25% { transform: translate(-50%, -50%) scale(1.2); }
+            50% { transform: translate(-50%, -50%) scale(1); }
+            75% { transform: translate(-50%, -50%) scale(1.1); }
+        }
+
+        .intro-counter {
+            color: white;
+            font-size: 1.5em;
+            margin-top: 60px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        /* Основной контент */
+        .container {
+            text-align: center;
+            padding: 20px;
+            max-width: 800px;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .container.visible {
+            opacity: 1;
+        }
+
+        h1 {
+            color: white;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            transition: all 0.5s ease;
+        }
+
+        .message {
+            color: #ffe6f0;
+            font-size: 1.3em;
+            margin-bottom: 20px;
+            min-height: 40px;
+            font-weight: 500;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .video-container {
+            margin-bottom: 30px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+        }
+
+        .video-container.celebration-mode {
+            max-width: 400px;
+            margin-top: -30px;
+        }
+
+        video {
+            width: 100%;
+            display: block;
+        }
+
+        video.celebration-video {
+            max-height: 400px;
+            object-fit: cover;
+        }
+
+        .buttons-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        button {
+            padding: 15px 40px;
+            font-size: 1.5em;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        #yesBtn {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            transform: scale(1);
+        }
+
+        #yesBtn:hover {
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+        }
+
+        #noBtn {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            color: #333;
+            transition: all 0.3s ease;
+        }
+
+        #noBtn:hover {
+            background: linear-gradient(135deg, #fed6e3 0%, #a8edea 100%);
+        }
+
+        #noBtn.hiding {
+            opacity: 0;
+            transform: scale(0);
+            pointer-events: none;
+        }
+
+        .hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 30px;
+            animation: fall 3s linear;
+            opacity: 0;
+        }
+
+        @keyframes fall {
+            0% {
+                opacity: 1;
+                transform: translateY(0) rotate(0deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+
+        .celebration {
+            display: none;
+            position: fixed;
+            top: 55%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3em;
+            color: white;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+            z-index: 1001;
+            animation: pulse 0.5s ease-in-out;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.2); }
+        }
+
+        .shake {
+            animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: scale(1) translateX(0); }
+            25% { transform: scale(1) translateX(-10px); }
+            75% { transform: scale(1) translateX(10px); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Интро экран -->
+    <div class="intro-screen" id="introScreen">
+        <div class="intro-message">
+            Наташа, хоть мы знакомы не так давно,<br>
+            ты уже стала мне искренне дорога 💕<br><br>
+            <em>Собери всех котиков, чтобы продолжить ✨</em>
+        </div>
+        <div class="intro-cats" id="introCats"></div>
+        <div class="heart-formation" id="heartFormation">❤️</div>
+        <div class="intro-counter">
+            Собрано: <span id="collectedCount">0</span> / <span id="totalCount">7</span>
+        </div>
+    </div>
+
+    <!-- Основной контент -->
+    <div class="container" id="mainContent">
+        <h1 id="mainTitle">💖 Будь моей валентинкой? 💖</h1>
+        
+        <div class="message" id="message"></div>
+        
+        <div class="video-container" id="videoContainer">
+            <video id="mainVideo" autoplay loop muted playsinline>
+                <source src="video_2026-02-10_19-48-18.mp4" type="video/mp4">
+                Твой браузер не поддерживает видео.
+            </video>
+        </div>
+
+        <div class="buttons-container" id="buttonsContainer">
+            <button id="yesBtn">Да ❤️</button>
+            <button id="noBtn">Нет</button>
+        </div>
+    </div>
+
+    <div class="hearts" id="hearts"></div>
+    <div class="celebration" id="celebration">🎉 Ура! Я знал! 🎉</div>
+
+    <script>
+        // Интро логика
+        const introScreen = document.getElementById('introScreen');
+        const mainContent = document.getElementById('mainContent');
+        const introCats = document.getElementById('introCats');
+        const heartFormation = document.getElementById('heartFormation');
+        const collectedCount = document.getElementById('collectedCount');
+        const totalCats = 7;
+        let collected = 0;
+
+        // Создаем летающих котиков строго по бокам
+        function createIntroCats() {
+            const positions = [
+                // Левая сторона
+                { top: '15%', left: '5%' },
+                { top: '35%', left: '8%' },
+                { top: '55%', left: '6%' },
+                { top: '75%', left: '7%' },
+                // Правая сторона
+                { top: '20%', left: '92%' },
+                { top: '45%', left: '90%' },
+                { top: '70%', left: '91%' }
+            ];
+
+            const catEmojis = ['🐱', '😺', '😸', '😻', '🐈', '😽', '😼'];
+
+            positions.forEach((pos, index) => {
+                const cat = document.createElement('div');
+                cat.className = 'intro-cat';
+                cat.innerHTML = catEmojis[index];
+                cat.style.top = pos.top;
+                cat.style.left = pos.left;
+                cat.style.animationDelay = (index * 0.3) + 's';
+                
+                cat.addEventListener('click', () => {
+                    if (!cat.classList.contains('collecting')) {
+                        cat.classList.add('collecting');
+                        collected++;
+                        collectedCount.textContent = collected;
+                        
+                        // Перемещаем кота в центр
+                        cat.style.top = '50%';
+                        cat.style.left = '50%';
+                        cat.style.transform = 'translate(-50%, -50%) scale(0.5)';
+                        cat.style.opacity = '0';
+                        
+                        if (collected === totalCats) {
+                            setTimeout(() => {
+                                // Показываем сердечко
+                                heartFormation.classList.add('show');
+                                
+                                setTimeout(() => {
+                                    introScreen.classList.add('hidden');
+                                    setTimeout(() => {
+                                        mainContent.classList.add('visible');
+                                    }, 300);
+                                }, 1500);
+                            }, 800);
+                        }
+                    }
+                });
+                
+                introCats.appendChild(cat);
+            });
+        }
+
+        createIntroCats();
+
+        // Основная логика
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const hearts = document.getElementById('hearts');
+        const celebration = document.getElementById('celebration');
+        const message = document.getElementById('message');
+        const mainVideo = document.getElementById('mainVideo');
+        const videoContainer = document.getElementById('videoContainer');
+        const buttonsContainer = document.getElementById('buttonsContainer');
+        const mainTitle = document.getElementById('mainTitle');
+        let yesBtnScale = 1;
+        let noClickCount = 0;
+
+        const messages = [
+            "Ты уверена? 🥺",
+            "Может всё-таки да? 💕",
+            "Я очень стараюсь! 🌹",
+            "Подумай ещё разок! 💝",
+            "Это будет классно, обещаю! ✨",
+            "Ну ну ну, не отказывай! 💖",
+            "Я верю в тебя! 🌟",
+            "Давай попробуем? 🥰",
+            "Последний шанс передумать! 💫",
+            "Кнопка \"Да\" уже скучает! 💗",
+        ];
+
+        noBtn.addEventListener('click', () => {
+            if (noClickCount < messages.length) {
+                yesBtnScale += 0.25;
+                yesBtn.style.transform = `scale(${yesBtnScale})`;
+                
+                message.textContent = messages[noClickCount];
+                message.classList.add('shake');
+                setTimeout(() => {
+                    message.classList.remove('shake');
+                }, 500);
+                
+                noClickCount++;
+                
+                // Если дошли до конца сообщений - удаляем кнопку "Нет"
+                if (noClickCount >= messages.length) {
+                    setTimeout(() => {
+                        noBtn.classList.add('hiding');
+                        setTimeout(() => {
+                            noBtn.remove();
+                        }, 300);
+                    }, 500);
+                }
+            }
+        });
+
+        yesBtn.addEventListener('click', () => {
+            // Меняем заголовок
+            mainTitle.textContent = '💝 Спасибо, что согласилась! 💝';
+            mainTitle.style.fontSize = '2.2em';
+            
+            celebration.style.display = 'block';
+            buttonsContainer.style.display = 'none';
+            message.textContent = '';
+            
+            // Уменьшаем и поднимаем контейнер видео
+            videoContainer.classList.add('celebration-mode');
+            
+            // Меняем видео с кадрированием
+            mainVideo.classList.add('celebration-video');
+            mainVideo.src = 'video_2026-02-10_19-59-07.mp4';
+            mainVideo.load();
+            mainVideo.play();
+            
+            // Создаем падающие сердечки
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => {
+                    createHeart();
+                }, i * 100);
+            }
+        });
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + '%';
+            hearts.appendChild(heart);
+            
+            setTimeout(() => {
+                heart.remove();
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
