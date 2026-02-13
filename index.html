@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>💖 Для Наташи 💖</title>
     <style>
         * {
@@ -55,6 +55,14 @@
             animation: fadeIn 1s ease;
         }
 
+        @media (max-width: 480px) {
+            .intro-message {
+                font-size: 1.4em;
+                padding: 15px;
+                margin-bottom: 40px;
+            }
+        }
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -77,6 +85,12 @@
             animation: float 3s ease-in-out infinite;
             pointer-events: auto;
             filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
+        }
+
+        @media (max-width: 480px) {
+            .intro-cat {
+                font-size: 40px;
+            }
         }
 
         .intro-cat:hover {
@@ -145,6 +159,13 @@
             transition: all 0.5s ease;
         }
 
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.8em;
+                padding: 0 10px;
+            }
+        }
+
         .message {
             color: #ffe6f0;
             font-size: 1.3em;
@@ -153,6 +174,13 @@
             font-weight: 500;
             text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
             transition: all 0.3s ease;
+        }
+
+        @media (max-width: 480px) {
+            .message {
+                font-size: 1.1em;
+                padding: 0 10px;
+            }
         }
 
         .video-container {
@@ -166,9 +194,16 @@
             position: relative;
         }
 
-        .video-container.celebration-mode {
-            max-width: 400px;
-            margin-top: -30px;
+        @media (max-width: 480px) {
+            .video-container {
+                width: 100%;
+                border-radius: 10px;
+            }
+
+            .video-container.celebration-mode {
+                max-width: 100%;
+                margin-top: -10px;
+            }
         }
 
         video {
@@ -185,19 +220,36 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 30px;
+            gap: 20px;
             margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 480px) {
+            .buttons-container {
+                flex-direction: column;
+                gap: 15px;
+            }
         }
 
         button {
             padding: 15px 40px;
-            font-size: 1.5em;
+            font-size: 1.2em;
             font-weight: bold;
             border: none;
             border-radius: 50px;
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            min-width: 140px;
+            min-height: 48px;
+        }
+
+        @media (max-width: 480px) {
+            button {
+                width: 80%;
+                max-width: 260px;
+            }
         }
 
         #yesBtn {
@@ -330,7 +382,7 @@
         const totalCats = 7;
         let collected = 0;
 
-        // Создаем летающих котиков строго по бокам
+        // Создаем летающих котиков (справа ближе к краю для Android)
         function createIntroCats() {
             const positions = [
                 // Левая сторона
@@ -338,10 +390,10 @@
                 { top: '35%', left: '8%' },
                 { top: '55%', left: '6%' },
                 { top: '75%', left: '7%' },
-                // Правая сторона
-                { top: '20%', left: '92%' },
-                { top: '45%', left: '90%' },
-                { top: '70%', left: '91%' }
+                // Правая сторона (ближе к центру на узких экранах)
+                { top: '20%', left: '88%' },
+                { top: '45%', left: '86%' },
+                { top: '70%', left: '87%' }
             ];
 
             const catEmojis = ['🐱', '😺', '😸', '😻', '🐈', '😽', '😼'];
@@ -411,7 +463,7 @@
             "Я верю в тебя! 🌟",
             "Давай попробуем? 🥰",
             "Последний шанс передумать! 💫",
-            "Кнопка \"Да\" уже скучает! 💗",
+            "Кнопка "Да" уже скучает! 💗",
         ];
 
         noBtn.addEventListener('click', () => {
